@@ -1,0 +1,40 @@
+
+Wisdom Isaiah <wisdomisaiah134@gmail.com>
+5:29 PM (0 minutes ago)
+to me
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Dashboard</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #f8fafc; }
+    .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1 id="name">Loading...</h1>
+    <p>Account #: <span id="acc">...</span></p>
+    <h2>Balance: $<span id="balance">0.00</span></h2>
+  </div>
+  <script>
+    async function init() {
+      const token = localStorage.getItem('token');
+      const res = await fetch('/api/user/dashboard', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        document.getElementById('name').innerText = data.profile.full_name;
+        document.getElementById('acc').innerText = data.profile.account_number;
+        document.getElementById('balance').innerText = data.profile.balance;
+      } else {
+        window.location.href = '/index.html';
+      }
+    }
+    init();
+  </script>
+</body>
+</html>
